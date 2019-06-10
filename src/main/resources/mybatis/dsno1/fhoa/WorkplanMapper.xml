@@ -154,7 +154,17 @@
 	</delete>
 	<!-- 列表 -->
 	<select id="reportPage" parameterType="page" resultType="pd">
-		SELECT u.`NAME` as zname,w.*,r.DEPARTMENT, 
+		SELECT u.`NAME` as zname,
+		w.NAME,	
+		w.TONAME,	
+		w.COPYNAME,	
+		w.CONTENET,	
+		DATE_FORMAT(w.STARTTIME,'%Y-%m-%d %H:%i:%S') as STARTTIME,	
+		w.ENDTIME,	
+		w.PROC_INST_ID_,	
+		w.STATE,	
+		w.WORKPLAN_ID,
+		r.DEPARTMENT, 
 		IF(w.WORKPLAN_ID is null,0,1) as submit,
 		(SELECT
 			ROUND(AVG(t.SCORE),2)

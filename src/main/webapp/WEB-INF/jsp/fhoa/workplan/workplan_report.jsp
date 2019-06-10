@@ -32,6 +32,9 @@
     <link rel="stylesheet" href="assets/fonts/fontawesome/css/fontawesome-all.min.css">
     <link rel="stylesheet" href="assets/plugins/animation/css/animate.min.css">
     <link rel="stylesheet" href="assets/css/style.css">
+    
+     <!-- 日期插件 -->
+    <link rel="stylesheet" href="assets/date/css/bootstrap-datetimepicker.min.css">    
 
 </head>
 
@@ -64,9 +67,16 @@
 											<table>
 												<tr>
 													<td>
-								                        <div class="input-group input-group-sm mb-3">
+								                        <!--<div class="input-group input-group-sm mb-3">
 		                                                	<input class="form-control" id="KEYWORDS" type="text" name="KEYWORDS" value="${pd.KEYWORDS }" placeholder="这里输入关键词" />
-		                                            	</div>
+		                                            	</div>-->
+		                                            <div class="input-group input-group-sm mb-3">
+					                                   <!-- <input type="text" class="form-control date" name="PLANTIME" id="PLANTIME" value="${pd.PLANTIME}" maxlength="32" placeholder="这里输入计划完成时间" title="计划完成时间">	-->	
+					                                    <div class='input-group date' id='datetimepicker1'>
+											                <input style="height: 110%;"  type="text"  readonly class="form_datetime" name="STARTCOMMITTIME" id="STARTCOMMITTIME" value=""  maxlength="32" placeholder="这里输入开始查询时间" title="">
+											           		<input type="text"  readonly class="form_datetime" name="ENDTCOMMITIME" id="ENDTCOMMITIME" value=""  maxlength="32" placeholder="这里输入结束查询时间" title="">
+                                                        </div>	
+					                                </div>
 													</td>
 													<td style="vertical-align:top;padding-left:5px;">
 														<a class="btn btn-light btn-sm" onclick="searchs();" style="width: 23px;height:30px;margin-top:1px;" title="检索"><i style="margin-top:-3px;margin-left: -6px;"  class="feather icon-search"></i></a>
@@ -90,7 +100,7 @@
 																<!--<th>接收人</th>-->
 																<!--<th>抄送人</th>-->
 																<!--<th>工作内容</th>-->
-																<th>开始时间</th>
+																<th>提交时间</th>
 																<th>是否提交</th>
 																<th>平均分</th>
 															</tr>
@@ -141,83 +151,58 @@
 <script type="text/javascript" src="assets/js/jquery-1.7.2.js"></script>
 <script type="text/javascript" src="assets/js/pre-loader.js"></script>
 <script src="assets/plugins/sweetalert/js/sweetalert.min.js"></script>
+
+
+<!-- 日期插件 -->
+<script src="assets/date/js/bootstrap-datetimepicker.min.js"></script>
+<script src="assets/date/js/locales/bootstrap-datetimepicker.zh-CN.js"></script>
+
+
 <!-- 表单验证提示 -->
 <script src="assets/js/jquery.tips.js"></script>
 <script type="text/javascript">
+        function dateFormat(Date,fmt) {
+		  var o = {
+		      "M+": Date.getMonth() + 1, //月份 
+		      "d+": Date.getDate(), //日 
+//		      "H+": Date.getHours(), //小时 
+//		      "m+": Date.getMinutes(), //分 
+//		      "s+": Date.getSeconds(), //秒 
+//		      "q+": Math.floor((Date.getMonth() + 3) / 3), //季度 
+//		      "S": Date.getMilliseconds() //毫秒 
+		  };
+		  if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (Date.getFullYear() + "").substr(4 - RegExp.$1.length));
+		  for (var k in o)
+		  if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+		  return fmt;
+		};
+	    $(function () {
+		    let startDate = new Date();
+			startDate.setTime(new Date().getTime() - 3600 * 1000 * 24 * 7); //获取一周前的Date对象
+			let startTime = dateFormat(startDate,'yyyy-MM-dd'); //获取一周前的格式化后日期
+			let endTime = dateFormat(new Date(),'yyyy-MM-dd');  //获取当前格式化后日期 
+			$('#STARTCOMMITTIME').val(startTime);
+	        $('#ENDTCOMMITIME').val(endTime);
+		    $('#STARTCOMMITTIME').datetimepicker({
+			    minView: "month", //选择日期后，不会再跳转去选择时分秒 
+			    language:  'zh-CN',
+	        	format: 'yyyy-mm-dd',
+			    todayBtn:  1,
+			    autoclose: 1
+		    });
+		    $('#ENDTCOMMITIME').datetimepicker({
+			    minView: "month", //选择日期后，不会再跳转去选择时分秒 
+			    language:  'zh-CN',
+	        	format: 'yyyy-mm-dd',
+			    todayBtn:  1,
+			    autoclose: 1,
+		    });
+		});
 
 		//检索
 		function searchs(){
 			$("#Form").submit();
 		}
-		
-		//新增
-		function add(){
-			 var diag = new top.Dialog();
-			 diag.Drag=true;
-			 diag.Title ="新增";
-			 diag.URL = '<%=basePath%>workplan/goAdd';
-			 diag.Width = 1000;
-			 diag.Height = 800;
-			 diag.Modal = true;				//有无遮罩窗口
-			 diag. ShowMaxButton = true;	//最大化按钮
-		     diag.ShowMinButton = true;		//最小化按钮
-			 diag.CancelEvent = function(){ //关闭事件
-				searchs();
-				diag.close();
-			 };
-			 diag.show();
-		}
-		
-		//删除
-		function del(Id){
-			swal({
-                title: '',
-	            text: "确定要删除 吗?",
-	            icon: "warning",
-	            buttons: true,
-	            dangerMode: true,
-            }).then((willDelete) => {
-            	if (willDelete) {
-	            	$.ajax({
-	        			type: "POST",
-	        			url: '<%=basePath%>workplan/delete',
-	        	    	data: {WORKPLAN_ID:Id,tm:new Date().getTime()},
-	        			dataType:'json',
-	        			cache: false,
-	        			success: function(data){
-	        				 if("success" == data.result){
-        		                swal("删除成功", "已经从列表中删除!", "success");
-        		                setTimeout(searchs, 1500);
-	        				 }else{
-	     		                 swal("删除失败!", "请先删除明细数据!", "warning");
-	        				 }
-	        				 
-	        			}
-	        		});
-            	}
-	        });
-		}
-		
-		//修改
-		function edit(Id){
-			 var diag = new top.Dialog();
-			 diag.Drag=true;
-			 diag.Title ="编辑";
-			 diag.URL = '<%=basePath%>workplan/goEdit?WORKPLAN_ID='+Id;
-			 diag.Width = 1000;
-			 diag.Height = 800;
-			 diag.Modal = true;				//有无遮罩窗口
-			 diag. ShowMaxButton = true;	//最大化按钮
-		     diag.ShowMinButton = true;		//最小化按钮
-			 diag.CancelEvent = function(){ //关闭事件
-				 if(diag.innerFrame.contentWindow.document.getElementById('showform').style.display == 'none'){
-					 searchs();
-				}
-				diag.close();
-			 };
-			 diag.show();
-		}
-		
 		//导出excel
 		function toExcel(){
 			window.location.href='<%=basePath%>workplan/reportExcel';

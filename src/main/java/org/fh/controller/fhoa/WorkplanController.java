@@ -313,7 +313,7 @@ public class WorkplanController extends AcStartController {
 			vpd.put("var1", varOList.get(i).getString("DEPARTMENT"));	    //1
 			vpd.put("var2", varOList.get(i).getString("zname"));	    //2
 			vpd.put("var3", varOList.get(i).get("STARTTIME"));	    //3
-			vpd.put("var4", varOList.get(i).get("submit").equals(0)?'否':'是');    //4
+			vpd.put("var4", varOList.get(i).get("submit").equals(0)?"否":"是");    //4
 			vpd.put("var5", varOList.get(i).get("SCORE")==null?"未评分":varOList.get(i).get("SCORE").toString());	    //5
 			varList.add(vpd);
 		}
