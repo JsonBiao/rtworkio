@@ -83,5 +83,9 @@ public class ConclusionServiceImpl implements ConclusionService{
 		conclusionMapper.deleteAll(ArrayDATA_IDS);
 	}
 	
+	public List<PageData> listReportPage(Page page)throws Exception{
+		return conclusionMapper.reportPage(page);
+	}
+	
 }
 

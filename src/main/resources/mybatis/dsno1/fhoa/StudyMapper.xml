@@ -170,5 +170,42 @@
 		</foreach>
 	</delete>
 	
-	
+	<!-- 报表列表 -->
+	<select id="reportPage" parameterType="page" resultType="pd">
+		SELECT
+		        r.DEPARTMENT,
+				u.`NAME` AS zname,
+				DATE_FORMAT(w.STARTTIME,'%Y-%m-%d %H:%i:%S') as STARTTIME,		
+				w.NAME,	
+				w.TONAME,
+				w.COPE_NAME,	
+				w.CONTENT,	
+				w.SCORE,	
+				w.ENDTIME,
+				w.PROC_INST_ID_,	
+				w.STUDY_ID,
+			    IF(w.STUDY_ID is null,0,1) as submit
+		FROM
+			      sys_user u
+		LEFT JOIN sys_role r ON u.ROLE_ID = r.ROLE_ID
+		LEFT JOIN oa_study w ON u.`NAME` = w.`NAME`
+		<if test="pd.STARTCOMMITTIME!=null and pd.STARTCOMMITTIME!=''">	
+			and w.STARTTIME &gt;= #{pd.STARTCOMMITTIME} 
+		</if>
+		<if test="pd.ENDTCOMMITIME!=null and pd.ENDTCOMMITIME!=''">		 	
+			and w.STARTTIME &lt;= #{pd.ENDTCOMMITIME} 
+		</if>
+		where u.`NAME` !='系统管理员' 
+		<if test="pd.KEYWORDS!= null and pd.KEYWORDS != ''"><!-- 关键词检索 -->
+			and
+				(
+				    u.`NAME` LIKE CONCAT(CONCAT('%', #{pd.KEYWORDS}),'%')
+					 or 
+					r.DEPARTMENT LIKE CONCAT(CONCAT('%', #{pd.KEYWORDS}),'%') 
+				
+				)
+		</if>
+		
+		ORDER BY r.DEPARTMENT
+	</select>
 </mapper>

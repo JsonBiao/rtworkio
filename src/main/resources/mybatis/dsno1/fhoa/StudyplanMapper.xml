@@ -149,5 +149,46 @@
 		</foreach>
 	</delete>
 	
-	<!-- fh313596790qq(青苔) -->
+	<!-- 报表列表 -->
+	<select id="reportPage" parameterType="page" resultType="pd">
+		SELECT u.`NAME` as zname,
+		w.NAME,	
+		w.TONAME,	
+		w.COPYNAME,	
+		DATE_FORMAT(w.STARTTIME,'%Y-%m-%d %H:%i:%S') as STARTTIME,	
+		w.ENDTIME,	
+		w.STATE,	
+		w.PROC_INST_ID_,	
+		w.STUDYPLAN_ID,
+		r.DEPARTMENT, 
+		IF(w.STUDYPLAN_ID is null,0,1) as submit,
+		(SELECT
+			ROUND(AVG(t.SCORE),2)
+		FROM
+			oa_studyplanmx t
+		WHERE
+			t.STUDYPLAN_ID = w.STUDYPLAN_ID
+		  and t.SCORE is not null
+		) as SCORE
+		FROM sys_user u
+		LEFT JOIN sys_role r ON u.ROLE_ID = r.ROLE_ID 
+		LEFT JOIN OA_STUDYPLAN w ON u.`NAME`=w.`NAME`
+		<if test="pd.STARTCOMMITTIME!=null and pd.STARTCOMMITTIME!=''">
+			and w.STARTTIME &gt;= #{pd.STARTCOMMITTIME} 
+		</if>
+		<if test="pd.ENDTCOMMITIME!=null and pd.ENDTCOMMITIME!=''">		 	
+			and w.STARTTIME &lt;= #{pd.ENDTCOMMITIME} 
+		</if>
+		where u.`NAME` !='系统管理员' 
+		<if test="pd.KEYWORDS!= null and pd.KEYWORDS != ''"><!-- 关键词检索 -->
+			and
+				(
+				    u.`NAME` LIKE CONCAT(CONCAT('%', #{pd.KEYWORDS}),'%')
+					 or 
+					r.DEPARTMENT LIKE CONCAT(CONCAT('%', #{pd.KEYWORDS}),'%') 
+				
+				)
+		</if>
+		ORDER BY r.DEPARTMENT
+	</select>
 </mapper>

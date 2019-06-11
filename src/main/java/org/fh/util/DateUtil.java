@@ -253,4 +253,19 @@ public class DateUtil {
     	System.out.println(getAfterDayWeek("3"));
     }
 
+    
+    /**
+     * 得到n天之前的日期
+     * @param days
+     * @return
+     */
+    public static String getBeforeDayDate(String days) {
+    	int daysInt = Integer.parseInt(days);
+        Calendar canlendar = Calendar.getInstance(); // java.util包
+        canlendar.set(Calendar.DAY_OF_YEAR, canlendar.get(Calendar.DAY_OF_YEAR) - daysInt); 
+        Date date = canlendar.getTime();
+        SimpleDateFormat sdfd = new SimpleDateFormat("yyyy-MM-dd");
+        String dateStr = sdfd.format(date);
+        return dateStr;
+    }
 }

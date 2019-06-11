@@ -83,5 +83,8 @@ public class StudyServiceImpl implements StudyService{
 		studyMapper.deleteAll(ArrayDATA_IDS);
 	}
 	
+	public List<PageData> listReportPage(Page page)throws Exception{
+		return studyMapper.reportPage(page);
+	}
 }
 

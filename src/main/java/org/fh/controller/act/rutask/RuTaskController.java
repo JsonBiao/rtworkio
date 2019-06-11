@@ -347,6 +347,7 @@ public class RuTaskController extends AcBusinessController {
 		    }
 			model.addAttribute("contents", pageDatas.get(0).getString("CONTENT"));
 			model.addAttribute("SCORE", pageDatas.get(0).getString("SCORE"));
+			model.addAttribute("TYPE", pageDatas.get(0).getString("TYPE"));
 		}else if(key.indexOf("key_work_plan")!=-1){
 			pd.put("key", "workplan");
 			List<PageData> pageDatas=ruprocdefService.selectByPIId(pd);

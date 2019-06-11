@@ -61,7 +61,7 @@
                                 <div class="col-xl-12">
                                     <div class="card">
 							
-										<form action="workplan/report" method="post" name="Form" id="Form">
+										<form action="conclusion/report" method="post" name="Form" id="Form">
 											<!-- 检索  -->
 											<div style="padding-left: 20px;padding-top: 15px;">
 											<table>
@@ -96,8 +96,9 @@
 																<!--<th>抄送人</th>-->
 																<!--<th>工作内容</th>-->
 																<th>提交时间</th>
+																<th>总结类型</th>
 																<th>是否提交</th>
-																<th>平均分</th>
+																<th>分数</th>
 															</tr>
 														</thead>
 														<tbody>
@@ -111,6 +112,7 @@
 																		<!--<td>${var.COPYNAME}</td>-->
 																		<!--<td>${var.CONTENET}</td>-->
 																		<td>${var.STARTTIME}</td>
+																		<td>${var.TYPE}</td>
 																		<td>${var.submit==0?'否':'是'}</td>
 																		<td>${var.SCORE==null?'未评分':var.SCORE}</td>
 																		<!--<td>${var.ENDTIME}</td>-->
@@ -203,7 +205,6 @@
 		}
 		//导出excel
 		function toExcel(){
-//			window.location.href='<%=basePath%>workplan/reportExcel';
 				var filename = "工作计划执行情况表"
 				var html = "<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:x='urn:schemas-microsoft-com:office:excel' xmlns='http://www.w3.org/TR/REC-html40'><head><meta charset='utf-8' /><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>工作计划执行情况表</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--></head><body>" + document.getElementById("exclTable").outerHTML + "</body></html>";
 				var blob = new Blob([html], {

@@ -58,5 +58,7 @@ public interface ConclusionService{
 	
 	public void editbyPIID(PageData pd)throws Exception;
 	
+	public List<PageData> listReportPage(Page page)throws Exception;
+	
 }
 

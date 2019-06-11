@@ -14,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+import org.apache.ibatis.scripting.xmltags.VarDeclSqlNode;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.fh.controller.act.AcStartController;
 import org.fh.controller.act.rutask.RuTaskController;
@@ -274,10 +275,13 @@ public class WorkplanController extends AcStartController {
 	public String report(Page page, Model model) throws Exception{
 		PageData pd = new PageData();
 		pd = this.getPageData();
-		if(!Jurisdiction.getName().equals("系统管理员")) {
-			pd.put("NAME", Jurisdiction.getName());
-		}
 		String KEYWORDS = pd.getString("KEYWORDS");						//关键词检索条件
+		if (Tools.isEmpty(pd.getString("STARTCOMMITTIME"))) {
+			String STARTCOMMITTIME=DateUtil.getBeforeDayDate("6");
+			String ENDTCOMMITIME=DateUtil.getDay();
+			pd.put("STARTCOMMITTIME", STARTCOMMITTIME);
+			pd.put("ENDTCOMMITIME", ENDTCOMMITIME);
+		}
 		if(Tools.notEmpty(KEYWORDS))pd.put("KEYWORDS", KEYWORDS.trim());
 		page.setPd(pd);
 		List<PageData> varList = workplanService.listReportPage(page);	//列出Workplan列表

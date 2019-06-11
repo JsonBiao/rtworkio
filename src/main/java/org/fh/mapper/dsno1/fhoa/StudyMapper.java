@@ -57,5 +57,7 @@ public interface StudyMapper{
 	 */
 	void deleteAll(String[] ArrayDATA_IDS);
 	
+	List<PageData> reportPage(Page page);
+	
 }
 

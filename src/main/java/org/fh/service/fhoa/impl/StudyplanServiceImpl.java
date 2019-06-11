@@ -79,5 +79,9 @@ public class StudyplanServiceImpl implements StudyplanService{
 		studyplanMapper.deleteAll(ArrayDATA_IDS);
 	}
 	
+	public List<PageData> listReportPage(Page page)throws Exception{
+		return studyplanMapper.reportPage(page);
+	}
+	
 }
 

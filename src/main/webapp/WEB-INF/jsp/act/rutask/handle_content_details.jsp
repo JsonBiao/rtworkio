@@ -53,6 +53,9 @@
                             <div class="row">
                             	<div class="col-xl-12">
                                     <div class="card">
+                                    	<c:if test="${pd.key == 'conclusion'}">
+			    						    <input type="text" class="form-control" name="TYPE" id="TYPE" value="${TYPE}" maxlength="255" placeholder="" title="总结类型"  disabled="false">
+			    					    </c:if>
 			    						<table>
 											<tr>
 												<td colspan="10" id="omsg" style="padding-bottom: 15px;">

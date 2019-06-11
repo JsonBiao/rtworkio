@@ -271,4 +271,29 @@ public class ConclusionController extends AcStartController {
         return "act/rutask/handle_content_details";
 	}
 	
+	
+	
+	/**列表
+	 * @param page
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/report")
+	@RequiresPermissions("conclusion:report")
+	public String report(Page page, Model model) throws Exception{
+		PageData pd = new PageData();
+		pd = this.getPageData();
+		String KEYWORDS = pd.getString("KEYWORDS");						//关键词检索条件
+		if (Tools.isEmpty(pd.getString("STARTCOMMITTIME"))) {
+			String STARTCOMMITTIME=DateUtil.getBeforeDayDate("6");
+			String ENDTCOMMITIME=DateUtil.getDay();
+			pd.put("STARTCOMMITTIME", STARTCOMMITTIME);
+			pd.put("ENDTCOMMITIME", ENDTCOMMITIME);
+		}
+		if(Tools.notEmpty(KEYWORDS))pd.put("KEYWORDS", KEYWORDS.trim());
+		page.setPd(pd);
+		List<PageData> varList = conclusionService.listReportPage(page);	//列出Workplan列表
+		model.addAttribute("varList", varList);
+		model.addAttribute("pd", pd);
+		return "fhoa/conclusion/conclusion_report";
+	}
 }

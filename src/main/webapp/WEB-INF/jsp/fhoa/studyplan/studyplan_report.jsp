@@ -61,7 +61,7 @@
                                 <div class="col-xl-12">
                                     <div class="card">
 							
-										<form action="workplan/report" method="post" name="Form" id="Form">
+										<form action="studyplan/report" method="post" name="Form" id="Form">
 											<!-- 检索  -->
 											<div style="padding-left: 20px;padding-top: 15px;">
 											<table>
@@ -203,7 +203,6 @@
 		}
 		//导出excel
 		function toExcel(){
-//			window.location.href='<%=basePath%>workplan/reportExcel';
 				var filename = "工作计划执行情况表"
 				var html = "<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:x='urn:schemas-microsoft-com:office:excel' xmlns='http://www.w3.org/TR/REC-html40'><head><meta charset='utf-8' /><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>工作计划执行情况表</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--></head><body>" + document.getElementById("exclTable").outerHTML + "</body></html>";
 				var blob = new Blob([html], {

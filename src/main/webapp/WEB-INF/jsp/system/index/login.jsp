@@ -143,7 +143,7 @@ Everything is meant to be realizing value!</div>
 		float:left;
 		width:404px;
 		height: 475px;
-		background-image: url('assets/images/bg-images/left.png');
+		background-image: url('assets/images/bg-images/leftpgm.png');
         		/*        width: 404px;height: 556px;*/
 		} 
 	.div-b{ 

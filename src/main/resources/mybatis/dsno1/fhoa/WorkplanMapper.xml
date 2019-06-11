@@ -152,7 +152,7 @@
                  #{item}
 		</foreach>
 	</delete>
-	<!-- 列表 -->
+	<!-- 报表列表 -->
 	<select id="reportPage" parameterType="page" resultType="pd">
 		SELECT u.`NAME` as zname,
 		w.NAME,	
@@ -177,7 +177,22 @@
 		FROM sys_user u
 		LEFT JOIN sys_role r ON u.ROLE_ID = r.ROLE_ID 
 		LEFT JOIN oa_workplan w ON u.`NAME`=w.`NAME`
+		<if test="pd.STARTCOMMITTIME!=null and pd.STARTCOMMITTIME!=''">
+			and w.STARTTIME &gt;= #{pd.STARTCOMMITTIME} 
+		</if>
+		<if test="pd.ENDTCOMMITIME!=null and pd.ENDTCOMMITIME!=''">		 	
+			and w.STARTTIME &lt;= #{pd.ENDTCOMMITIME} 
+		</if>
 		where u.`NAME` !='系统管理员' 
+		<if test="pd.KEYWORDS!= null and pd.KEYWORDS != ''"><!-- 关键词检索 -->
+			and
+				(
+				    u.`NAME` LIKE CONCAT(CONCAT('%', #{pd.KEYWORDS}),'%')
+					 or 
+					r.DEPARTMENT LIKE CONCAT(CONCAT('%', #{pd.KEYWORDS}),'%') 
+				
+				)
+		</if>
 		ORDER BY r.DEPARTMENT
 	</select>
 	
