@@ -108,7 +108,9 @@
 												<c:choose>
 													<c:when test="${not empty varList}">
 														<c:forEach items="${varList}" var="var" varStatus="vs">
-															<tr>
+															<c:if test="${'no' == var.isEnd }">
+							                 			    <tr ondblclick="edit('${var.STUDY_ID}');">
+													        </c:if>
 																<td>
 																  	<div class="checkbox d-inline">
 		                                                            	<input type="checkbox" id="zcheckbox${vs.index }" name='ids' value="${var.STUDY_ID}">
@@ -303,7 +305,7 @@
 			 diag.Title ="提交详情";
 			 diag. ShowMaxButton = true;	//最大化按钮
 		     diag.ShowMinButton = true;		//最小化按钮
-			 diag.URL = '<%=basePath%>rutask/contentDetails?PROC_INST_ID_='+id+'&isRun=0';
+			 diag.URL = '<%=basePath%>rutask/contentDetails?PROC_INST_ID_='+id+'&isRun=3';
 			 diag.Width = 760;
 			 diag.Height = 500;
 			 diag.CancelEvent = function(){ //关闭事件

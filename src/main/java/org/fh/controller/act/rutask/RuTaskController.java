@@ -320,6 +320,10 @@ public class RuTaskController extends AcBusinessController {
 				model.addAttribute("isShowScore", "yes");
 				model.addAttribute("isScore", "no");
 		    }
+			if(pd.getString("isRun").equals("3")) {
+				model.addAttribute("isShowScore", "other");
+				model.addAttribute("isScore", "other");
+		    }
 			model.addAttribute("contents", pageDatas.get(0).getString("CONTENT"));
 			model.addAttribute("SCORE", pageDatas.get(0).getString("SCORE"));
 		}else if(key.indexOf("key_study_plan")!=-1){
@@ -362,6 +366,83 @@ public class RuTaskController extends AcBusinessController {
 			model.addAttribute("contents", pageDatas);
 		}
         return "act/rutask/handle_content_details";
+	}
+	
+	
+	@RequestMapping(value="/contentViewDetails")
+	public String selectByPIIdView(Model model)throws Exception{
+        PageData pd = new PageData();
+		pd = this.getPageData();
+		List<PageData>	hitaskList = ruprocdefService.hiTaskList(pd);
+		String key=hitaskList.get(hitaskList.size()-1).get("PROC_DEF_ID_").toString();
+        String qj=hitaskList.get(hitaskList.size()-1).get("ACT_ID_").toString();
+        if(key.indexOf("key_synergy")!=-1) {
+			pd.put("key", "synergy");
+			List<PageData> pageDatas=ruprocdefService.selectByPIId(pd);
+			model.addAttribute("pd", pd);
+			model.addAttribute("contents", pageDatas);
+		}else if(key.indexOf("key_distributed")!=-1){
+			pd.put("key", "distributed");
+			List<PageData> pageDatas=ruprocdefService.selectByPIId(pd);
+			model.addAttribute("pd", pd);
+			model.addAttribute("contents", pageDatas);
+		}else if(key.indexOf("key_study")!=-1&&key.indexOf("key_study_plan")==-1){
+			pd.put("key", "study");
+			List<PageData> pageDatas=ruprocdefService.selectByPIId(pd);
+			model.addAttribute("pd", pd);
+			if(qj.equals("QJ2")) {
+				model.addAttribute("isScore", "yes");
+		    }
+			if(pd.getString("isRun").equals("1")) {
+				model.addAttribute("isShowScore", "yes");
+				model.addAttribute("isScore", "no");
+		    }
+			if(pd.getString("isRun").equals("3")) {
+				model.addAttribute("isShowScore", "other");
+				model.addAttribute("isScore", "other");
+		    }
+			model.addAttribute("contents", pageDatas.get(0).getString("CONTENT"));
+			model.addAttribute("SCORE", pageDatas.get(0).getString("SCORE"));
+		}else if(key.indexOf("key_study_plan")!=-1){
+			pd.put("key", "studyplan");
+			List<PageData> pageDatas=ruprocdefService.selectByPIId(pd);
+			model.addAttribute("pd", pd);
+			if(qj.equals("QJ2")) {
+				model.addAttribute("isScore", "yes");
+		    }
+			if(pd.getString("isRun").equals("1")) {
+				model.addAttribute("isShowScore", "yes");
+				model.addAttribute("isScore", "no");
+		    }
+			model.addAttribute("contents", pageDatas);
+		}else if(key.indexOf("key_work_conclusion")!=-1){
+			pd.put("key", "conclusion");
+			List<PageData> pageDatas=ruprocdefService.selectByPIId(pd);
+			model.addAttribute("pd", pd);
+			if(qj.equals("QJ2")) {
+				model.addAttribute("isScore", "yes");
+		    }
+			if(pd.getString("isRun").equals("1")) {
+				model.addAttribute("isShowScore", "yes");
+				model.addAttribute("isScore", "no");
+		    }
+			model.addAttribute("contents", pageDatas.get(0).getString("CONTENT"));
+			model.addAttribute("SCORE", pageDatas.get(0).getString("SCORE"));
+			model.addAttribute("TYPE", pageDatas.get(0).getString("TYPE"));
+		}else if(key.indexOf("key_work_plan")!=-1){
+			pd.put("key", "workplan");
+			List<PageData> pageDatas=ruprocdefService.selectByPIId(pd);
+			model.addAttribute("pd", pd);
+			if(qj.equals("QJ2")) {
+				model.addAttribute("isScore", "yes");
+		    }
+			if(pd.getString("isRun").equals("1")) {
+				model.addAttribute("isShowScore", "yes");
+				model.addAttribute("isScore", "no");
+		    }
+			model.addAttribute("contents", pageDatas);
+		}
+        return "act/rutask/handle_content_view_details";
 	}
 	
 	

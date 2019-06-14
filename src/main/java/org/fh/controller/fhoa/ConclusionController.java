@@ -61,8 +61,10 @@ public class ConclusionController extends AcStartController {
 		PageData pd = new PageData();
 		pd = this.getPageData();
         String ASSIGNEE = pd.getString("ASSIGNEE_2");
+        String pdName=usersService.selectNames(ASSIGNEE);
 		pd.put("CONCLUSION_ID", this.get32UUID());	//主键
 		pd.put("NAME", Jurisdiction.getName());
+		pd.put("TONAME", pdName);	
 		pd.put("STARTTIME", date);	
 		conclusionService.save(pd);
         pd = conclusionService.findById(pd);	//根据ID读取
@@ -268,6 +270,7 @@ public class ConclusionController extends AcStartController {
 		List<PageData> pageDatas=ruprocdefService.selectByPIId(pd);
 		model.addAttribute("pd", pd);
 		model.addAttribute("contents", pageDatas.get(0).getString("CONTENT"));
+		model.addAttribute("TYPE", pageDatas.get(0).getString("TYPE"));
         return "act/rutask/handle_content_details";
 	}
 	

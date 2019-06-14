@@ -108,7 +108,9 @@
 													<c:choose>
 														<c:when test="${not empty varList}">
 															<c:forEach items="${varList}" var="var" varStatus="vs">
-																<tr>
+																<c:if test="${var.SUSPENSION_STATE_ == 1 }">
+																<tr ondblclick="handle('${var.PROC_INST_ID_}','${var.ID_}','${var.DGRM_RESOURCE_NAME_}');" >
+																</c:if>
 																	<td style="width: 30px;">${page.showCount*(page.currentPage-1)+vs.index+1}</td>
 																	<td>${var.PNAME_}</td>
 																	<td>${var.INITATOR}</td>

@@ -102,7 +102,7 @@
 														<c:choose>
 															<c:when test="${not empty varList}">
 																<c:forEach items="${varList}" var="var" varStatus="vs">
-																	<tr>
+																	<tr ondblclick="edit('${var.DISTRIBUTED_ID}');">
 																		<td>${page.showCount*(page.currentPage-1)+vs.index+1}</td>
 																		<td>${var.NAME}</td>
 																		<td>${var.TONAME}</td>

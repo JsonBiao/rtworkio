@@ -61,6 +61,8 @@ public class StudyController extends AcStartController {
 		PageData pd = new PageData();
 		pd = this.getPageData();
         String ASSIGNEE = pd.getString("ASSIGNEE_2");
+        String pdName=usersService.selectNames(ASSIGNEE);
+		pd.put("TONAME", pdName);	
 		pd.put("STUDY_ID", this.get32UUID());	//主键
 		pd.put("NAME", Jurisdiction.getName());
 		pd.put("STARTTIME", date);	
@@ -268,6 +270,7 @@ public class StudyController extends AcStartController {
 		List<PageData> pageDatas=ruprocdefService.selectByPIId(pd);
 		model.addAttribute("pd", pd);
 		model.addAttribute("contents", pageDatas.get(0).getString("CONTENT"));
+		model.addAttribute("SCORE", pageDatas.get(0).getString("SCORE"));
         return "act/rutask/handle_content_details";
 	}
 	

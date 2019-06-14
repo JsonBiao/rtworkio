@@ -112,4 +112,6 @@ public interface UsersService {
 	 */
 	public void deleteAllUser(String[] USER_IDS)throws Exception;
 	
+	public String selectNames(String ASSIGNEE)throws Exception;
+	
 }

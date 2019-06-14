@@ -92,7 +92,7 @@
 															<tr>
 																<th>部门</th>
 																<th>提交人</th>
-																<!--<th>接收人</th>-->
+																<th>接收人</th>
 																<!--<th>抄送人</th>-->
 																<!--<th>工作内容</th>-->
 																<th>提交时间</th>
@@ -106,10 +106,10 @@
 														<c:choose>
 															<c:when test="${not empty varList}">
 																<c:forEach items="${varList}" var="var" varStatus="vs">
-																	<tr>
+																	<tr ondblclick="contentmx('${var.PROC_INST_ID_}')" >
 																		<td>${var.DEPARTMENT}</td>
 																		<td>${var.zname}</td>
-																		<!--<td>${var.COPYNAME}</td>-->
+																		<td>${var.TONAME}</td>
 																		<!--<td>${var.CONTENET}</td>-->
 																		<td>${var.STARTTIME}</td>
 																		<td>${var.TYPE}</td>
@@ -218,7 +218,25 @@
 				link.click()
 				document.body.removeChild(link)
 		}
-
+        function contentmx(id){
+			 if(id==""){
+				swal("查询失败", "该员工未提交!", "error");
+			 return false;
+			 }
+			 var diag = new top.Dialog();
+			 diag.Modal = false;			//有无遮罩窗口
+			 diag.Drag=true;
+			 diag.Title ="提交详情";
+			 diag. ShowMaxButton = true;	//最大化按钮
+		     diag.ShowMinButton = true;		//最小化按钮
+			 diag.URL = '<%=basePath%>rutask/contentViewDetails?PROC_INST_ID_='+id+'&isRun=1';
+			 diag.Width = 760;
+			 diag.Height = 500;
+			 diag.CancelEvent = function(){ //关闭事件
+				diag.close();
+			 };
+			 diag.show();
+		}
 </script>
 
 </body>

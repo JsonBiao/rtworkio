@@ -109,7 +109,9 @@
 												<c:choose>
 													<c:when test="${not empty varList}">
 														<c:forEach items="${varList}" var="var" varStatus="vs">
-															<tr>
+															<c:if test="${'no' == var.isEnd }">	
+													        <tr  ondblclick="edit('${var.CONCLUSION_ID}');">
+							                 				</c:if>	
 																<td>
 																  	<div class="checkbox d-inline">
 		                                                            	<input type="checkbox" id="zcheckbox${vs.index }" name='ids' value="${var.CONCLUSION_ID}">

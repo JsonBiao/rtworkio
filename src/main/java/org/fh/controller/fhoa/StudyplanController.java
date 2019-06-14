@@ -25,6 +25,7 @@ import org.fh.util.ObjectExcelView;
 import org.fh.util.Tools;
 import org.fh.entity.PageData;
 import org.fh.service.fhoa.StudyplanService;
+import org.fh.service.system.UsersService;
 import org.fh.service.fhoa.StudyplanMxService;
 
 /** 
@@ -46,6 +47,9 @@ public class StudyplanController extends AcStartController {
 	@Autowired
 	private RuTaskController ruTaskController;
 	
+	@Autowired
+	private UsersService usersService;
+	
 	/**保存
 	 * @param
 	 * @throws Exception
@@ -61,6 +65,8 @@ public class StudyplanController extends AcStartController {
 		PageData pd = new PageData();
 		pd = this.getPageData();
         String ASSIGNEE = pd.getString("ASSIGNEE_2");
+        String pdName=usersService.selectNames(ASSIGNEE);
+		pd.put("TONAME", pdName);	
 		pd.put("STUDYPLAN_ID", this.get32UUID());	//主键
 		pd.put("NAME", Jurisdiction.getName());
 		pd.put("STARTTIME", date);

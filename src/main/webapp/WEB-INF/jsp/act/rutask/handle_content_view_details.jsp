@@ -64,21 +64,21 @@
 												</td>
 											</tr>
 			    						</table>
-			    						<c:if test="${isScore == 'yes'}">
+			    						<!--<c:if test="${isScore == 'yes'}">
 			    						<input type="number" class="form-control" name="SCORE" id="SCORE" value="${SCORE}" maxlength="255" placeholder="请对上文进行评分" title="评分">
 			    					    </c:if>
 			    						<c:if test="${isShowScore == 'yes'}">
 			    						<input type="number" class="form-control" name="SCORE" id="SCORE" value="${SCORE}" maxlength="255" placeholder="请对上文进行评分" title="评分" disabled="false">
-			    					    </c:if>
+			    					    </c:if>-->
                                     </div>
 			    				</div>
                         	</div>
                         	<!-- [ Main Content ] end -->
-                        	<footer>
+                        	<!--<footer>
 								<div style="width: 100%;padding-bottom: 2px;margin-top: 10px;" class="center">
 									<a class="btn btn-light btn-sm" onclick="editScore('${pd.PROC_INST_ID_}')">确认</a>
 								</div>
-						    </footer>
+						    </footer>-->
                         </c:if>
                 		<c:if test="${pd.key == 'synergy' || pd.key == 'distributed'}">
                             <!-- [ Main Content ] start -->
@@ -173,11 +173,11 @@
 											</c:choose>
 											</tbody>
 										</table>
-			                        	<footer>
+			                        	<!--<footer>
 											<div style="width: 100%;padding-bottom: 2px;margin-top: 10px;" class="center">
 												<a class="btn btn-light btn-sm" onclick="editSPScore('${pd.PROC_INST_ID_}')">确认</a>
 											</div>
-									    </footer>
+									    </footer>-->
 									</div>
 			    				</div>
                         	</div>
@@ -235,11 +235,11 @@
 											</c:choose>
 											</tbody>
 										</table>
-			                        	<footer>
+			                        	<!--<footer>
 											<div style="width: 100%;padding-bottom: 2px;margin-top: 10px;" class="center">
 												<a class="btn btn-light btn-sm" onclick="editWPScore('${pd.PROC_INST_ID_}')">确认</a>
 											</div>
-									    </footer>
+									    </footer>-->
 									</div>
 			    				</div>
                         	</div>
@@ -277,15 +277,6 @@
 	        });
 			$("#SCORE").focus();
 		return false;
-		}else if($("#SCORE").val()<0||$("#SCORE").val()>100){
-			$("#SCORE").tips({
-				side:3,
-	            msg:'请输入0到100的分数',
-	            bg:'#AE81FF',
-	            time:2
-	        });
-			$("#SCORE").focus();
-		return false;
 		}
         $.ajax({
 			type: "POST",
@@ -304,7 +295,7 @@
         $("#tablboy").find("tr").each(function(){  
           var tdArr = $(this).children();  
           var score = tdArr.eq(6).find("input").val(); 
-		  if(score==""||Number(score)<0||Number(score)>100){
+		  if(score==""){
 		  	isNUll=true;
 		  }
           scores.push(score)
@@ -312,7 +303,7 @@
 		if(isNUll==true){
 			$("#SCORE").tips({
 				side:3,
-	            msg:'请对所有学习计划进行评分且分数在0-100之间',
+	            msg:'请对所有学习计划进行评分',
 	            bg:'#AE81FF',
 	            time:2
 	        });
@@ -336,7 +327,7 @@
         $("#tablboy").find("tr").each(function(){  
           var tdArr = $(this).children();  
           var score = tdArr.eq(4).find("input").val();
-		  if(score==""||Number(score)<0||Number(score)>100){
+		  if(score==""){
 		  	isNUll=true;
 		  }
           scores.push(score)
@@ -344,7 +335,7 @@
 		if(isNUll==true){
 			$("#SCORE").tips({
 				side:3,
-	            msg:'请对所有工作计划进行评分且分数在0-100之间',
+	            msg:'请对所有工作计划进行评分',
 	            bg:'#AE81FF',
 	            time:2
 	        });

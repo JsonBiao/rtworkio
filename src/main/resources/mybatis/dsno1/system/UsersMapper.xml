@@ -133,7 +133,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<!-- 列出某角色下的所有用户 -->
 	<select id="listAllUserByRoldId"  parameterType="pd" resultType="pd" >
-		select USER_ID
+		select 
+		 <include refid="Field"></include>
 		from 
 		<include refid="tableName"></include>
 		where 
@@ -370,5 +371,5 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 
 
-<!-- fh 31 359 67 90qq(青 苔) -->
+
 </mapper>

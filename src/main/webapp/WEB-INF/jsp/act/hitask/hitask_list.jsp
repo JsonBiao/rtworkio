@@ -111,7 +111,7 @@
 														<c:choose>
 															<c:when test="${not empty varList}">
 																<c:forEach items="${varList}" var="var" varStatus="vs">
-																	<tr>
+																	<tr  ondblclick="view('${var.PROC_INST_ID_}','${var.DEPLOYMENT_ID_ }','${var.DGRM_RESOURCE_NAME_}');" >
 																		<td scope="row">${page.showCount*(page.currentPage-1)+vs.index+1}</td>
 																		<td>${var.PNAME_}</td>
 																		<td>${var.INITATOR}</td>

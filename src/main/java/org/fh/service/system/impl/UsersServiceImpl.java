@@ -3,10 +3,13 @@ package org.fh.service.system.impl;
 import org.fh.service.system.UsersService;
 
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.fh.entity.Page;
 import org.fh.entity.PageData;
 import org.fh.entity.system.User;
+import org.fh.mapper.dsno1.system.RoleMapper;
 import org.fh.mapper.dsno1.system.UsersMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,6 +26,9 @@ public class UsersServiceImpl implements UsersService {
 	
 	@Autowired
 	private UsersMapper usersMapper;
+	
+	@Autowired
+	private RoleMapper roleMapper;
 	
 	/**通过用户名获取用户信息
 	 * @param pd
@@ -151,6 +157,33 @@ public class UsersServiceImpl implements UsersService {
 	 */
 	public void deleteAllUser(String[] USER_IDS)throws Exception{
 		usersMapper.deleteAllUser(USER_IDS);
+	}
+	
+	/*
+	 * 通过用户名或者角色编码查询真实姓名
+	 */
+	public String selectNames(String ASSIGNEE)throws Exception{
+		Pattern p = Pattern.compile("[0-9]");
+        Matcher m = p.matcher(ASSIGNEE);
+		PageData pdData=new PageData();
+		String pdName="";
+		if (m.find()) {
+			pdData.put("RNUMBER", ASSIGNEE);
+			PageData pdRole=roleMapper.getRoleByRnumber(pdData);
+			List<PageData> pdNames=usersMapper.listAllUserByRoldId(pdRole);
+			for(PageData pData:pdNames) {
+				if (pdName=="") {
+					pdName=pData.getString("NAME");
+				}else {
+					pdName+=","+pData.getString("NAME");
+				}
+			}
+		} else {
+			pdData.put("USERNAME", ASSIGNEE);
+			PageData pdNames=usersMapper.findByUsername(pdData);
+			    pdName=pdNames.getString("NAME");
+        }
+		return pdName;
 	}
 	
 }

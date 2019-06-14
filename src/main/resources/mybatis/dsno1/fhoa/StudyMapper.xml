@@ -29,7 +29,7 @@
 	<sql id="Field2">
 		STARTTIME,	
 		NAME,	
-		<!-- TONAME,	 -->
+		TONAME,
 		COPE_NAME,	
 		CONTENT,	
 		SCORE,	
@@ -41,7 +41,7 @@
 	<sql id="FieldValue">
 		#{STARTTIME},	
 		#{NAME},	
-		<!-- #{TONAME},	 -->
+		#{TONAME},
 		#{COPE_NAME},	
 		#{CONTENT},	
 		#{SCORE},	
